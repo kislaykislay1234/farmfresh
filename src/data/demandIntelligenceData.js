@@ -1,0 +1,171 @@
+// src/data/demandIntelligenceData.js
+// Comprehensive Demand Intelligence sourced from National Horticulture Board (NHB), APEDA, and Agmarknet
+// Provides multi-crop demand forecasting, state rankings, growth CAGR, price trends, and farmer advisories.
+
+export const DEMAND_INTELLIGENCE_DATA = [
+  {
+    id: "dem-mushroom",
+    crop_name: "Button Mushroom (Agaricus bisporus)",
+    category: "Protected Horticulture",
+    demand_label: "High Demand",
+    demand_badge: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    demand_score: 92,
+    trend_pct: "+14.8%",
+    trend_period: "YoY (2026 Growth)",
+    production_volume: "398,770 tonnes (FY2024-25, NHB)",
+    market_size_note: "India's mushroom market: ~$1.72B in 2026, projected $3.02B by 2035 (CAGR 8.5%)",
+    avg_market_price: "₹130 - ₹180 / kg",
+    profit_margin: "+48% to +60%",
+    turnover_days: 30,
+    water_efficiency: "80% Less Water vs Conventional",
+    buyer_segments: ["Quick-Commerce (Blinkit/Zepto)", "Hotels & Cloud Kitchens", "Modern Retail"],
+    top_producing_states: [
+      { state: "Uttar Pradesh", share_pct: 12.27, tonnes: 48800 },
+      { state: "Odisha", share_pct: 11.79, tonnes: 47000 },
+      { state: "Bihar", share_pct: 11.27, tonnes: 44930 },
+      { state: "Maharashtra", share_pct: 8.11, tonnes: 32340 },
+      { state: "Uttarakhand", share_pct: 8.00, tonnes: 31900 },
+    ],
+    source: "National Horticulture Board (nhb.gov.in), APEDA (apeda.gov.in)",
+    farmer_recommendation:
+      "Mushroom demand in Tier-1 & Tier-2 cities is outstripping local mandi supply. Indoor vertical cultivation on straw compost yields year-round crop without large acreage. Avail state hut-production subsidies (50% setup cost covered under MIDH).",
+    suitable_states: "UP, Bihar, Odisha, Maharashtra, Haryana, Uttarakhand"
+  },
+  {
+    id: "dem-bell-pepper",
+    crop_name: "Colored Bell Peppers (Red & Yellow Capsicum)",
+    category: "Polyhouse Horticulture",
+    demand_label: "Surging Demand",
+    demand_badge: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    demand_score: 89,
+    trend_pct: "+18.2%",
+    trend_period: "YoY, Urban Retail Surge",
+    production_volume: "185,000 tonnes (Annual Est.)",
+    market_size_note: "High urban salad and continental cuisine consumption in metro corridors",
+    avg_market_price: "₹90 - ₹145 / kg",
+    profit_margin: "+42%",
+    turnover_days: 70,
+    water_efficiency: "Drip fertigation saves 45% water",
+    buyer_segments: ["HORECA (Hotels & Restaurants)", "Supermarket Chains", "Food Processors"],
+    top_producing_states: [
+      { state: "Maharashtra", share_pct: 26.5, tonnes: 49000 },
+      { state: "Karnataka", share_pct: 22.0, tonnes: 40700 },
+      { state: "Himachal Pradesh", share_pct: 16.4, tonnes: 30300 },
+      { state: "Gujarat", share_pct: 12.8, tonnes: 23680 },
+    ],
+    source: "NHB Horticultural Database & Agmarknet Wholesale Analytics",
+    farmer_recommendation:
+      "Colored bell peppers fetch 3x the realization of green capsicum. Polyhouse farmers with drip irrigation can achieve 30-35 tonnes/acre yield. Tie up with local HoReCa aggregators for forward fixed-rate pricing.",
+    suitable_states: "Maharashtra, Karnataka, Gujarat, Himachal Pradesh, Punjab"
+  },
+  {
+    id: "dem-dragonfruit",
+    crop_name: "Dragon Fruit (Kamalam / Pitaya)",
+    category: "Exotic Fruit Crop",
+    demand_label: "High Demand",
+    demand_badge: "bg-purple-100 text-purple-800 border-purple-200",
+    demand_score: 94,
+    trend_pct: "+24.5%",
+    trend_period: "YoY, Health & Export Demand",
+    production_volume: "45,000 tonnes (Rapidly expanding)",
+    market_size_note: "Import substitution crop with strong domestic retail pricing at ₹160-220/kg",
+    avg_market_price: "₹140 - ₹200 / kg",
+    profit_margin: "+65%",
+    turnover_days: "Perennial (Lifespan 20+ yrs)",
+    water_efficiency: "Drought-hardy cactus (65% less water)",
+    buyer_segments: ["Premium Retailers", "Export Markets", "Juice & Puree Brands"],
+    top_producing_states: [
+      { state: "Gujarat (Kutch)", share_pct: 31.0, tonnes: 13950 },
+      { state: "Maharashtra", share_pct: 24.5, tonnes: 11025 },
+      { state: "Karnataka", share_pct: 18.2, tonnes: 8190 },
+      { state: "Andhra Pradesh", share_pct: 12.1, tonnes: 5445 },
+    ],
+    source: "Mission for Integrated Development of Horticulture (MIDH)",
+    farmer_recommendation:
+      "Requires RCC trellis poles. Yield starts from Year 2 (4-6 tonnes/acre) and reaches 10-12 tonnes/acre by Year 4. Kutch and Saurashtra regions receive specialized state subsidies for trellising.",
+    suitable_states: "Gujarat, Maharashtra, Rajasthan, Karnataka, Telangana"
+  },
+  {
+    id: "dem-babycorn",
+    crop_name: "Baby Corn (Zea mays L.)",
+    category: "Short-Duration Vegetable",
+    demand_label: "High Turnover Demand",
+    demand_badge: "bg-blue-100 text-blue-800 border-blue-200",
+    demand_score: 84,
+    trend_pct: "+11.5%",
+    trend_period: "YoY, Canning & Fresh Retail",
+    production_volume: "92,000 tonnes (Fresh & Canned)",
+    market_size_note: "Allows 3-4 harvests per year on the same plot with zero fallow loss",
+    avg_market_price: "₹45 - ₹65 / kg (De-husked)",
+    profit_margin: "+35%",
+    turnover_days: 52,
+    water_efficiency: "Moderate (Short 50-day window)",
+    buyer_segments: ["Canning Units", "Modern Trade", "Catering & Banquet Chains"],
+    top_producing_states: [
+      { state: "Haryana", share_pct: 28.0, tonnes: 25760 },
+      { state: "Karnataka", share_pct: 21.5, tonnes: 19780 },
+      { state: "Maharashtra", share_pct: 19.0, tonnes: 17480 },
+      { state: "Punjab", share_pct: 14.2, tonnes: 13060 },
+    ],
+    source: "ICAR-Indian Institute of Maize Research (IIMR)",
+    farmer_recommendation:
+      "Excellent intercrop or quick rotation crop. Harvest occurs within 50-55 days before tassel maturity. Crop residue provides 15-20 tonnes/acre of highly nutritious green fodder for dairy cattle.",
+    suitable_states: "Haryana, Punjab, Karnataka, UP, MP, Maharashtra"
+  },
+  {
+    id: "dem-strawberry",
+    crop_name: "Chandler & Winter Dawn Strawberries",
+    category: "High-Value Berry",
+    demand_label: "Seasonal High Demand",
+    demand_badge: "bg-pink-100 text-pink-800 border-pink-200",
+    demand_score: 91,
+    trend_pct: "+16.7%",
+    trend_period: "YoY, Urban Confectionery Surge",
+    production_volume: "35,000 tonnes (Annual)",
+    market_size_note: "Mahabaleshwar, Meghalaya, and Haryana corridors driving winter direct sales",
+    avg_market_price: "₹180 - ₹280 / kg",
+    profit_margin: "+55%",
+    turnover_days: 85,
+    water_efficiency: "Silver-black mulched drip beds",
+    buyer_segments: ["Bakery & Confectionery", "Fresh Fruit Boutiques", "Direct Farm Tourism"],
+    top_producing_states: [
+      { state: "Maharashtra (Satara)", share_pct: 68.0, tonnes: 23800 },
+      { state: "Meghalaya", share_pct: 12.0, tonnes: 4200 },
+      { state: "Himachal Pradesh", share_pct: 8.5, tonnes: 2975 },
+      { state: "Haryana / Punjab", share_pct: 6.2, tonnes: 2170 },
+    ],
+    source: "APEDA Agri-Exchange Database",
+    farmer_recommendation:
+      "Planting in late September with black plastic mulch and micro-tubing irrigation yields high-brix fruits from December to March. Cold-chain proximity and corrugated punnet packaging prevent transport bruising.",
+    suitable_states: "Maharashtra, Himachal, Meghalaya, Haryana, Uttarakhand"
+  },
+  {
+    id: "dem-ginger-green",
+    crop_name: "High-Curcumin Ginger & Maran Green Ginger",
+    category: "Spices & Root Crops",
+    demand_label: "Export & Processing Demand",
+    demand_badge: "bg-amber-100 text-amber-800 border-amber-200",
+    demand_score: 87,
+    trend_pct: "+13.4%",
+    trend_period: "YoY, Spices Board Benchmark",
+    production_volume: "2,120,000 tonnes (National)",
+    market_size_note: "Strong demand from ayurvedic formulations, spice oil extractors, and fresh mandis",
+    avg_market_price: "₹110 - ₹160 / kg",
+    profit_margin: "+45%",
+    turnover_days: 210,
+    water_efficiency: "High requirement, responsive to mulching",
+    buyer_segments: ["Oleo-resin Extractors", "Ayurvedic Pharma", "APMC Wholesale"],
+    top_producing_states: [
+      { state: "Madhya Pradesh", share_pct: 22.4, tonnes: 475000 },
+      { state: "Kerala", share_pct: 18.6, tonnes: 394000 },
+      { state: "Karnataka", share_pct: 16.2, tonnes: 343400 },
+      { state: "Assam & NE", share_pct: 15.1, tonnes: 320100 },
+    ],
+    source: "Spices Board of India (indianspices.com)",
+    farmer_recommendation:
+      "Utilize shade-tolerant intercropping under arecanut or coconut palms. Good drainage and raised bed cultivation prevent rhizome rot. Storing dried ginger (Sonth) hedges against seasonal price dips.",
+    suitable_states: "Kerala, Karnataka, MP, Odisha, Assam, Meghalaya"
+  }
+]
+
+export default DEMAND_INTELLIGENCE_DATA
