@@ -158,12 +158,13 @@ export const FreshnessScannerPage = () => {
       setCurrentImageSrc(base64Data)
       setSelectedCase({
         id: 'uploaded-photo',
-        name: file.name.replace(/\.[^/.]+$/, ''),
+        name: 'Uploaded Photo',
         type: 'custom',
         image: base64Data
       })
       if (useCamera) handleStopCamera()
-      executeScan(base64Data, { cropName: file.name.replace(/\.[^/.]+$/, '') })
+      // Let the AI vision engine auto-detect the produce from actual pixels
+      executeScan(base64Data, {})
     }
     reader.onerror = () => {
       toast.error("Couldn't read the selected photo file.")
@@ -194,7 +195,8 @@ export const FreshnessScannerPage = () => {
 
   const triggerScan = () => {
     let imageToScan = currentImageSrc
-    let options = {
+    const isCustom = selectedCase?.type === 'custom'
+    let options = isCustom ? {} : {
       cropName: selectedCase.name,
       condition: selectedCase.condition,
       forceNonProduce: selectedCase.forceNonProduce
@@ -205,7 +207,7 @@ export const FreshnessScannerPage = () => {
       if (captured) {
         imageToScan = captured
         setCurrentImageSrc(captured)
-        options = { cropName: 'Live Camera Capture' }
+        options = {}
       }
     }
 

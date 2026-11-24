@@ -39,26 +39,12 @@ export function FreshnessScanner({ onClose }) {
     setError(null);
 
     try {
-      // 1. Attempt Supabase Edge Function if available
-      if (supabase && supabase.functions) {
-        try {
-          const { data, error: fnError } = await supabase.functions.invoke("freshness-agent", {
-            body: { image: img, manual_details: manual },
-          });
-          if (!fnError && data && typeof data.is_produce === "boolean") {
-            setResult(data);
-            setStep("result");
-            return;
-          }
-        } catch (supabaseErr) {
-          console.warn("Edge function invocation bypassed to local neural vision engine:", supabaseErr);
-        }
-      }
-
-      // 2. Client-Side Fallback Vision Engine
+      // 1. Run dynamic Computer Vision & Freshness Engine
       const fullDataUrl = img.startsWith("data:") ? img : `data:image/jpeg;base64,${img}`;
       const localResult = await runTwoStageFreshnessScan(fullDataUrl, {
         cropName: manual?.crop_type_guess,
+        daysSinceHarvest: manual?.days_since_harvest ? Number(manual.days_since_harvest) : undefined,
+        storageCondition: manual?.storage_condition,
         condition: manual?.days_since_harvest && manual.days_since_harvest > 6 ? "bruised" : undefined
       });
 
@@ -73,32 +59,17 @@ export function FreshnessScanner({ onClose }) {
           rejection_message: localResult.stage1?.message || "This doesn't look like a fruit or vegetable — try again with a clear photo of your produce.",
         });
       } else {
-        const days = manual?.days_since_harvest ? Number(manual.days_since_harvest) : 2;
-        const isRefrigerated = manual?.storage_condition === "refrigerated";
-        
-        let adjustedScore = localResult.stage2.score <= 10 
-          ? localResult.stage2.score 
-          : Math.max(15, Math.min(99, localResult.stage2.score - (days > 2 ? (days - 2) * 3 : 0) + (isRefrigerated ? 4 : 0)));
-
-        let category = "Fresh";
-        if (adjustedScore <= 10) category = "Needs Quick Sale";
-        else if (adjustedScore >= 90) category = "Fresh";
-        else if (adjustedScore >= 75) category = "Good";
-        else if (adjustedScore >= 55) category = "Moderate";
-        else category = "Needs Quick Sale";
+        const score = localResult.stage2.score;
+        const category = localResult.stage2.category;
 
         setResult({
           is_produce: true,
           crop_identified: manual?.crop_type_guess || localResult.stage1.cropName,
           identification_confidence: "high",
-          freshness_score: adjustedScore,
+          freshness_score: score,
           freshness_category: category,
-          shelf_life_days: adjustedScore <= 10 ? 1 : (localResult.stage2?.shelfLifeDays || 5),
-          reasons: localResult.stage2.visualReasons || [
-            "Natural skin color and surface pigmentation inspected.",
-            "Epidermal firmness verified with minimal visible decay.",
-            `Storage condition evaluated: ${manual?.storage_condition?.replace('_', ' ') || 'ambient normal'}.`
-          ],
+          shelf_life_days: localResult.stage2.shelfLifeDays,
+          reasons: localResult.stage2.visualReasons,
           rejection_message: null,
         });
       }
