@@ -41,7 +41,7 @@ export function FreshnessScanner({ onClose }: { onClose: () => void }) {
       const fullData = reader.result as string;
       const base64 = fullData.split(",")[1]; // strip data: prefix
       setImageBase64(base64);
-      runAnalysis(base64, {});
+      runAnalysis(base64, manualCropOverride ? { crop_type_guess: manualCropOverride } : {});
     };
     reader.readAsDataURL(file);
   }
@@ -152,6 +152,34 @@ export function FreshnessScanner({ onClose }: { onClose: () => void }) {
               </ul>
             </div>
 
+            {/* Quick crop selector */}
+            <div className="space-y-1.5 text-left">
+              <span className="text-xs font-semibold text-gray-700 block">Select Crop Type (Optional):</span>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { label: "✨ Auto-Detect", value: "" },
+                  { label: "🧅 Onion", value: "Nashik Red Onion" },
+                  { label: "🥔 Potato", value: "Farm Jyoti Potato" },
+                  { label: "🍅 Tomato", value: "Hybrid Tomato" },
+                  { label: "🍌 Banana", value: "Fresh Robusta Banana" },
+                  { label: "🍎 Apple", value: "Red Apple / Royal Gala" }
+                ].map((c) => (
+                  <button
+                    key={c.label}
+                    type="button"
+                    onClick={() => setManualCropOverride(c.value)}
+                    className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${
+                      manualCropOverride === c.value
+                        ? "bg-green-600 text-white border-green-600 shadow-xs"
+                        : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
+                    }`}
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <input
               ref={fileInputRef}
               type="file"
@@ -226,6 +254,30 @@ export function FreshnessScanner({ onClose }: { onClose: () => void }) {
               <span className="text-[10px] font-bold uppercase tracking-wider block opacity-80">Category</span>
               <p className="text-2xl font-extrabold">{result.freshness_category}</p>
               <p className="text-xs font-bold mt-1 text-gray-800">{result.crop_identified} — <span className="font-mono text-sm">{result.freshness_score}/100</span></p>
+            </div>
+
+            {/* Quick 1-click crop change */}
+            <div className="flex flex-wrap gap-1 items-center justify-center pt-0.5">
+              <span className="text-[10px] text-gray-400 font-medium">Wrong crop?</span>
+              {[
+                { label: "🧅 Onion", value: "Nashik Red Onion" },
+                { label: "🥔 Potato", value: "Farm Jyoti Potato" },
+                { label: "🍅 Tomato", value: "Hybrid Tomato" },
+                { label: "🍌 Banana", value: "Fresh Robusta Banana" },
+                { label: "🍎 Apple", value: "Red Apple / Royal Gala" }
+              ].map((c) => (
+                <button
+                  key={c.label}
+                  type="button"
+                  onClick={() => {
+                    setManualCropOverride(c.value);
+                    if (imageBase64) runAnalysis(imageBase64, { crop_type_guess: c.value });
+                  }}
+                  className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 hover:bg-green-100 hover:text-green-800 text-gray-600 transition"
+                >
+                  {c.label}
+                </button>
+              ))}
             </div>
 
             {result.identification_confidence === "low" && (
