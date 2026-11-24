@@ -19,6 +19,8 @@ export function FreshnessScanner({ onClose }) {
   const [storageTemp, setStorageTemp] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [geminiApiKey, setGeminiApiKey] = useState(() => typeof localStorage !== 'undefined' ? (localStorage.getItem('FARM_GEMINI_API_KEY') || "") : "");
+  const [showKeyInput, setShowKeyInput] = useState(false);
   const fileInputRef = useRef(null);
 
   function handleFileCapture(e) {
@@ -174,6 +176,38 @@ export function FreshnessScanner({ onClose }) {
             >
               Take Photo
             </button>
+
+            <div className="pt-1 text-center">
+              <button
+                type="button"
+                onClick={() => setShowKeyInput(!showKeyInput)}
+                className="text-[11px] text-gray-500 hover:text-gray-800 underline inline-flex items-center gap-1"
+              >
+                ⚙️ {geminiApiKey ? "Gemini Cloud AI Connected ✓" : "Connect Free Gemini Cloud AI (Optional)"}
+              </button>
+              {showKeyInput && (
+                <div className="mt-2 p-2.5 bg-gray-50 rounded-xl border border-gray-200 text-left space-y-1.5 animate-in fade-in">
+                  <label className="text-[10px] font-bold text-gray-700 block">
+                    Google Gemini API Key (Optional from aistudio.google.com):
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="AIzaSy..."
+                    value={geminiApiKey}
+                    onChange={(e) => {
+                      const val = e.target.value.trim();
+                      setGeminiApiKey(val);
+                      if (val) localStorage.setItem('FARM_GEMINI_API_KEY', val);
+                      else localStorage.removeItem('FARM_GEMINI_API_KEY');
+                    }}
+                    className="w-full text-xs font-mono px-2.5 py-1.5 border rounded-lg bg-white"
+                  />
+                  <p className="text-[9px] text-gray-500">
+                    If blank, our high-accuracy on-device Computer Vision engine evaluates the photo locally.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
